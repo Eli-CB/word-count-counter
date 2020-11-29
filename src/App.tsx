@@ -1,26 +1,49 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import TextInputBox from './components/TextInputBox';
+import ResultsTable from './components/ResultsTable';
+import WordCount from './interfaces/WordCount'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends React.Component {
+
+	state = {
+		words: [],
+		counts: []
+	};
+
+	calculateWordCount = (words: string) => {
+		let wordCounts: WordCount[] = [];
+		const wordsArray = words.split(/\s+/);
+		wordsArray.forEach((word: string) => {
+			let foundWordIndex = wordCounts.findIndex(value => value.word === word);
+			if(foundWordIndex !== -1) {
+				wordCounts[foundWordIndex].count++;
+			} else {
+				wordCounts.push({word: word, count: 1});
+			}
+		});
+
+        this.setState({
+			words: wordCounts.map(wordCount => {
+				return wordCount.word;
+			}),
+			counts: wordCounts.map(wordCount => {
+				return wordCount.count;
+			})
+		});
+    }
+
+	render() {
+		return (
+			<div className="App">
+				<TextInputBox	
+					calculateWordCount={this.calculateWordCount}
+				/>
+				<ResultsTable 
+					words={this.state.words}
+					counts={this.state.counts}
+				/>
+			</div>
+		);
+	}
 }
-
-export default App;

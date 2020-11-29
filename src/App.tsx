@@ -14,12 +14,15 @@ export default class App extends React.Component {
 	calculateWordCount = (words: string) => {
 		let wordCounts: WordCount[] = [];
 		const wordsArray = words.split(/\s+/);
+
 		wordsArray.forEach((word: string) => {
 			let foundWordIndex = wordCounts.findIndex(value => value.word === word);
 			if(foundWordIndex !== -1) {
 				wordCounts[foundWordIndex].count++;
 			} else {
-				wordCounts.push({word: word, count: 1});
+				if(word) {
+					wordCounts.push({word: word, count: 1});
+				}
 			}
 		});
 
@@ -31,6 +34,7 @@ export default class App extends React.Component {
 				return wordCount.count;
 			})
 		});
+
     }
 
 	render() {
@@ -38,7 +42,7 @@ export default class App extends React.Component {
 			<div className="App">
 				<TextInputBox	
 					calculateWordCount={this.calculateWordCount}
-				/>
+				/> <br></br>
 				<ResultsTable 
 					words={this.state.words}
 					counts={this.state.counts}

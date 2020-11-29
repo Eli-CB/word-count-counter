@@ -15,8 +15,8 @@ export default class TextInputBox extends React.Component<any, any> {
 
     render() {
         return (
-          <div className="mx-auto center-mobile text-center">
-                <Form>
+          <div>
+                <Form className="mx-5 mt-3 center-mobile text-center col-6">
                     <FormGroup >
                         <Label>Input Text</Label>
                         <Input type="textarea" onChange={this.handleChange} value={this.state.value} name="text" />
